@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gameverseacademy – Connexion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark:    #1e1e1e;
+      --bg-card:    #2a2a2a;
+      --bg-input:   #f0f4ff;
+      --gold:       #e6a817;
+      --gold-hover: #d09510;
+      --text-light: #c8c8c8;
+      --text-white: #ffffff;
+      --text-label: #9a9a9a;
+      --border:     #3d3d3d;
+      --accent-top: #e6a817;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    /* ── thin gold bar at very top of page ── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--accent-top);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 36px 30px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+
+    /* ── header message ── */
+    .card__notice {
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .card__notice strong {
+      color: var(--text-white);
+    }
+
+    /* ── form elements ── */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: .12em;
+      color: var(--text-label);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-input);
+      border: 1.5px solid transparent;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-family: 'Open Sans', sans-serif;
+      color: #222;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: var(--gold);
+    }
+
+    /* eye toggle */
+    .toggle-pw {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      display: flex;
+      align-items: center;
+    }
+    .toggle-pw svg { width: 20px; height: 20px; }
+
+    /* ── forgot password ── */
+    .forgot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    .forgot svg { width: 16px; height: 16px; opacity: .7; }
+    .forgot a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .forgot a:hover { text-decoration: underline; }
+
+    /* ── submit button ── */
+    .btn-login {
+      width: 100%;
+      padding: 16px;
+      background: var(--gold);
+      color: #1a1200;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      margin-bottom: 18px;
+    }
+    .btn-login:hover  { background: var(--gold-hover); }
+    .btn-login:active { transform: scale(.98); }
+
+    /* ── remember me ── */
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+    .remember input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    /* ── cancel button ── */
+    .btn-cancel {
+      width: 100%;
+      padding: 13px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-light);
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-cancel:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <p class="card__notice">You need to <strong>log in</strong> before continuing.</p>
+
+    <!--
+      action  → URL de la Servlet Java qui traitera la connexion
+      method  → POST (données sensibles, non visibles dans l'URL)
+               La servlet utilisera doPost() pour traiter la requête
+    -->
+    <form action="LoginController" method="POST">
+
+      <!-- Champ 1 : login (email ou nom d'utilisateur) -->
+      <div class="form-group">
+        <label for="login">Email or Username</label>
+        <div class="input-wrap">
+          <input
+            type="text"
+            id="login"
+            name="login"
+            placeholder="admin@gameverseacademy.ma"
+            autocomplete="username"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Champ 2 : password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            autocomplete="current-password"
+            required
+          />
+          <!-- Bouton œil pour afficher/masquer le mot de passe -->
+          <button type="button" class="toggle-pw" onclick="togglePassword()" aria-label="Show/Hide password">
+            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Lien mot de passe oublié -->
+      <div class="forgot">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <path stroke-linecap="round" d="M12 8v4m0 4h.01"/>
+        </svg>
+        Forgot your <a href="#">Password?</a>
+      </div>
+
+      <!-- Bouton submit → envoie le formulaire à la Servlet -->
+      <button type="submit" class="btn-login">Log In</button>
+
+      <!-- Case à cocher "Remember me" -->
+      <label class="remember">
+        <input type="checkbox" name="remember" value="true" checked />
+        Remember me
+      </label>
+
+      <!-- Bouton annuler (ne soumet pas le formulaire) -->
+      <button type="button" class="btn-cancel" onclick="history.back()">Cancel</button>
+
+    </form>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const pw = document.getElementById('password');
+      const icon = document.getElementById('eye-icon');
+      if (pw.type === 'password') {
+        pw.type = 'text';
+        icon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8
+                   a18.45 18.45 0 015.06-5.94"/>
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8
+                   a18.5 18.5 0 01-2.16 3.19"/>
+          <line x1="1" y1="1" x2="23" y2="23"
+                stroke-linecap="round"/>`;
+      } else {
+        pw.type = 'password';
+        icon.innerHTML = `
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+          <circle cx="12" cy="12" r="3"/>`;
+      }
+    }
+  </script>
+
+</body>
+</html>
