@@ -2,6 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="ma.ac.esi.gameverseacademy.model.Mod" %>
+<%@ page import="java.util.Map" %>
+<%
+    java.util.Map<Integer,String> gameNames = 
+        (java.util.Map<Integer,String>) request.getAttribute("gameNames");
+%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -398,6 +403,21 @@
                 <div>
                     <div class="card-title"><%= title %></div>
                     <span class="badge <%= badgeClass %>"><%= category.isEmpty() ? "—" : category %></span>
+                    <%
+    String gameName = (gameNames != null && gameNames.containsKey(mod.getGameId()))
+                      ? gameNames.get(mod.getGameId())
+                      : "—";
+%>
+<div style="display:flex; align-items:center; gap:.4rem; font-size:.72rem; 
+            color:var(--text-mid); margin-top:.4rem;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         style="width:11px;height:11px;stroke:var(--lav);flex-shrink:0;">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+    </svg>
+    <%= gameName %>
+</div>
                     <div class="card-author">
                         <div class="author-av"><%= initials %></div>
                         <%= author %>

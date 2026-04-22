@@ -17,12 +17,13 @@ public class Mod {
     private String    platform;
     private String    releaseDate;   
     private int       metacritic;
+    private int gameId;
 
     
     public Mod(int id, String title, String category, String author,
                String description, int downloads, Timestamp createdAt,
                String developer, String publisher, String platform,
-               String releaseDate, int metacritic) {
+               String releaseDate, int metacritic , int gameId) {
 
         this.id          = id;
         this.title       = title;
@@ -36,6 +37,7 @@ public class Mod {
         this.platform    = platform;
         this.releaseDate = releaseDate;
         this.metacritic  = metacritic;
+        this.gameId = gameId;
     }
 
 
@@ -69,6 +71,8 @@ public class Mod {
     public void setReleaseDate(String releaseDate){ this.releaseDate = releaseDate; }
     public void setMetacritic(int metacritic)    { this.metacritic  = metacritic;  }
 
+    public int getGameId() { return gameId; }
+    public void setGameId(int gameId) { this.gameId = gameId; }
    
     @Override
     public String toString() {

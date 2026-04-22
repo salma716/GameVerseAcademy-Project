@@ -262,7 +262,7 @@
 
         <form action="<%= request.getContextPath() %>/updateMod" method="post">
             <input type="hidden" name="id" value="<%= mod.getId() %>"/>
-
+			<input type="hidden" name="game_id" value="<%= mod.getGameId() %>"/>
             <div class="form-group">
                 <label>Titre</label>
                 <input type="text" name="title" value="<%= mod.getTitle() != null ? mod.getTitle() : "" %>" required/>

@@ -57,6 +57,8 @@ public class ModUpdateController extends HttpServlet {
         String category    = request.getParameter("category");
         String author      = request.getParameter("author");
         String description = request.getParameter("description");
+        int    gameId = Integer.parseInt(request.getParameter("game_id"));
+        
 
         Mod mod = new Mod();
         mod.setId(id);
@@ -64,6 +66,7 @@ public class ModUpdateController extends HttpServlet {
         mod.setCategory(category);
         mod.setAuthor(author);
         mod.setDescription(description);
+        mod.setGameId(gameId);
 
         boolean success = modService.updateMod(mod);
 

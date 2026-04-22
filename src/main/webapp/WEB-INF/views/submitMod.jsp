@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="ma.ac.esi.gameverseacademy.model.Game" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,6 +53,20 @@
  
         <label for="author">Auteur</label>
         <input type="text" id="author" name="author" placeholder="Votre pseudo">
+        <label for="game_id">Jeu associé</label>
+<select id="game_id" name="game_id">
+    <option value="0">— Aucun jeu —</option>
+    <%
+        List<Game> games = (List<Game>) request.getAttribute("games");
+        if (games != null) {
+            for (Game g : games) {
+    %>
+    <option value="<%= g.getId() %>"><%= g.getTitle() %></option>
+    <%
+            }
+        }
+    %>
+</select>
  
         <label for="description">Description</label>
         <textarea id="description" name="description"
@@ -59,5 +75,6 @@
         <button type="submit">Soumettre le mod</button>
     </form>
 </div>
+
 </body>
 </html>

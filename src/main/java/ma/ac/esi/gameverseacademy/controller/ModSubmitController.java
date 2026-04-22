@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import ma.ac.esi.gameverseacademy.model.Mod;
+import ma.ac.esi.gameverseacademy.service.GameService;
 import ma.ac.esi.gameverseacademy.service.ModService;
 import ma.ac.esi.gameverseacademy.util.AuthUtil;
 
@@ -26,6 +27,8 @@ public class ModSubmitController extends HttpServlet {
     		response.sendRedirect(request.getContextPath() + "/index.html");
     		return;
     	}
+    	GameService gameService = new GameService();
+    	request.setAttribute("games", gameService.getAllGames());
     	request.getRequestDispatcher("/WEB-INF/views/submitMod.jsp")
         .forward(request, response);
     }
@@ -41,6 +44,9 @@ public class ModSubmitController extends HttpServlet {
         String category    = request.getParameter("category");
         String author      = request.getParameter("author");
         String description = request.getParameter("description");
+        String gameIdParam = request.getParameter("game_id");
+        
+
  
         // 3. Construire l'objet Mod
         Mod mod = new Mod();
@@ -48,14 +54,16 @@ public class ModSubmitController extends HttpServlet {
         mod.setCategory(category);
         mod.setAuthor(author);
         mod.setDescription(description);
+        int gameId = (gameIdParam != null && !gameIdParam.isEmpty()) ? Integer.parseInt(gameIdParam) : 0;
+        mod.setGameId(gameId);
  
         // 4. Appeler le service pour insérer le mod
         boolean success = modService.submitMod(mod);
  
         // 5. Transmettre le résultat à la JSP
         if (success) {
-            request.setAttribute("message",
-                "Votre mod a été soumis avec succès !");
+            response.sendRedirect(request.getContextPath() + "/mods");
+            return;
         } else {
             request.setAttribute("error",
                 "Erreur lors de la soumission. Vérifiez les champs.");

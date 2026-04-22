@@ -16,7 +16,7 @@ public class ModRepository {
     private static final String SELECT_ALL =
         "SELECT id, title, category, author, description, " +
         "       downloads, created_at, developer, publisher, " +
-        "       platform, release_date, metacritic            " +
+        "       platform, release_date, metacritic, game_id            " +
         "FROM mods                                             " +
         "ORDER BY id ASC";
 
@@ -46,12 +46,13 @@ public class ModRepository {
                 // release_date stockée en DATE SQL → on la lit comme String
                 String releaseDate = rs.getString("release_date");
                 int    metacritic  = rs.getInt("metacritic");
+                int gameId = rs.getInt("game_id");
 
                 // Créer l'objet Mod et l'ajouter à la liste
                 mods.add(new Mod(
                     id, title, category, author, description,
                     downloads, createdAt, developer, publisher,
-                    platform, releaseDate, metacritic
+                    platform, releaseDate, metacritic, gameId
                 ));
             }
 
@@ -67,7 +68,7 @@ public class ModRepository {
         final String sql =
             "SELECT id, title, category, author, description, " +
             "       downloads, created_at, developer, publisher, " +
-            "       platform, release_date, metacritic            " +
+            "       platform, release_date, metacritic, game_id           " +
             "FROM mods WHERE id = ?";
 
         try (Connection conn        = DBUtil.getConnection();
@@ -89,7 +90,8 @@ public class ModRepository {
                         rs.getString("publisher"),
                         rs.getString("platform"),
                         rs.getString("release_date"),
-                        rs.getInt("metacritic")
+                        rs.getInt("metacritic"),
+                        rs.getInt("game_id")
                     );
                 }
             }
@@ -101,8 +103,8 @@ public class ModRepository {
         return null; // mod introuvable
         }
         public boolean insertMod(Mod mod) {
-            String sql = "INSERT INTO mods (title, category, author, description) "
-                       + "VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO mods (title, category, author, description, game_id) "
+                       + "VALUES (?, ?, ?, ?, ?)";
          
             try (Connection conn = DBUtil.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -111,6 +113,7 @@ public class ModRepository {
                 stmt.setString(2, mod.getCategory());
                 stmt.setString(3, mod.getAuthor());
                 stmt.setString(4, mod.getDescription());
+                stmt.setInt(5, mod.getGameId());
          
                 int rowsAffected = stmt.executeUpdate();
 
@@ -121,7 +124,7 @@ public class ModRepository {
             }
     }
         public boolean updateMod(Mod mod) {
-            String sql = "UPDATE mods SET title=?, category=?, author=?, description=? WHERE id=?";
+            String sql = "UPDATE mods SET title=?, category=?, author=?, description=?, game_id=? WHERE id=?";
 
             try (Connection conn = DBUtil.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -130,7 +133,9 @@ public class ModRepository {
                 stmt.setString(2, mod.getCategory());
                 stmt.setString(3, mod.getAuthor());
                 stmt.setString(4, mod.getDescription());
-                stmt.setInt(5, mod.getId());
+                stmt.setInt(5, mod.getGameId());
+                stmt.setInt(6, mod.getId());
+                
 
                 return stmt.executeUpdate() > 0;
 
