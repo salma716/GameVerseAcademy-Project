@@ -6,12 +6,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import ma.ac.esi.gameverseacademy.model.Game;
 import ma.ac.esi.gameverseacademy.model.Mod;
 import ma.ac.esi.gameverseacademy.service.GameService;
 import ma.ac.esi.gameverseacademy.service.ModService;
 import ma.ac.esi.gameverseacademy.util.AuthUtil;
 
 import java.io.IOException;
+import java.util.List;
  
 @WebServlet("/submitMod")
 public class ModSubmitController extends HttpServlet {
