@@ -16,9 +16,9 @@ pipeline {
             }
         }
         stage('Couverture de Code') {
-            steps {
-                bat 'mvn cobertura:cobertura -Dmaven.test.failure.ignore=true'
-            }
+    steps {
+        bat 'mvn jacoco:prepare-agent test jacoco:report -Dmaven.test.failure.ignore=true'
+    }
         }
         stage('Documentation') {
             steps {
