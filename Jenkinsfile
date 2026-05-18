@@ -66,7 +66,7 @@ pipeline {
 
     post {
         failure {
-            mail to: 'admin@gameverseacademy.com',
+            mail to: 'salma.jamai.sj1234@gmail.com',
                  subject: "ECHEC Pipeline - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: "Build echoue : ${env.BUILD_URL}"
         }
